@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "BaseJetPackCompose"
 include ':app'
 include ':calculator_sctioon1'
+include ':movie_app_section1'
