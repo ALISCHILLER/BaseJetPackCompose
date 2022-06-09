@@ -1,6 +1,7 @@
 package com.msa.calculator_sctioon1
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -70,6 +71,16 @@ fun TopHeader(perPerson:Double=555.0){
 @Preview
 @Composable
 fun MainContent(){
+    BillForm(){ billAtm ->
+        Log.e("ATM", "MainContent: $billAtm", )
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun BillForm(modifier: Modifier=Modifier,
+             onValChange:(String)->Unit={}
+             ){
     val totalBillState= remember {
         mutableStateOf("")
     }
@@ -78,29 +89,39 @@ fun MainContent(){
 
     }
     val keyboardController=LocalSoftwareKeyboardController.current
-   Surface(
+    Surface(
         modifier = Modifier
             .padding(1.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp,color=Color.LightGray)
     ) {
-            Column() {
-                InputField(
-                    valueState =totalBillState ,
-                    labelId = "Enter Bill",
-                    enabled = true,
-                    isSingleLine =true,
-                    onAction = KeyboardActions{
-                        if (!validState)return@KeyboardActions
-                        //Todo - onvaluechanged
-                        keyboardController?.hide()
-                    })
+        Column() {
+            InputField(
+                valueState =totalBillState ,
+                labelId = "Enter Bill",
+                enabled = true,
+                isSingleLine =true,
+                onAction = KeyboardActions{
+                    if (!validState)return@KeyboardActions
+                    onValChange(totalBillState.value.trim())
+                    keyboardController?.hide()
+                })
 
+            if(validState){
+               Row(modifier=Modifier.padding(3.dp),
+                   horizontalArrangement = Arrangement.Start) {
+                  
+               }
+            }else{
+                Box() {
+                    
+                }
             }
+
+        }
     }
 }
-
 @Composable
 fun MyApp(content:@Composable () -> Unit){
     BaseJetPackComposeTheme {
