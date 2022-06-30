@@ -111,7 +111,7 @@ fun BillForm(modifier: Modifier=Modifier,
             if(validState){
                Row(modifier=Modifier.padding(3.dp),
                    horizontalArrangement = Arrangement.Start) {
-                  
+
                }
             }else{
                 Box() {
